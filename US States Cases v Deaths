@@ -1,0 +1,1031 @@
+from IPython.core.interactiveshell import InteractiveShell
+InteractiveShell.ast_node_interactivity = "all"
+
+import numpy as np, pandas as pd, matplotlib.pyplot as plt, seaborn as sns
+%matplotlib inline
+
+pd.options.mode.chained_assignment = None  # default='warn'
+pd.set_option('display.max_rows', 200)
+
+csvFile = 'https://covidtracking.com/api/v1/states/daily.csv'
+df = pd.read_csv(csvFile)
+
+# below columns are depreciated
+df = df.drop(['checkTimeEt', 'commercialScore', 'dateChecked', 'dateModified',
+              'deathIncrease', 'grade', 'hospitalized', 'hospitalizedIncrease',
+              'negativeIncrease', 'negativeRegularScore', 'negativeScore',
+              'posNeg', 'positiveIncrease', 'positiveScore', 'score',
+              'total', 'totalTestResultsIncrease'], axis=1)
+
+# smaller dataset to work with - all states
+df1 = df[['date', 'state', 'positive', 'negative', 'death',
+          'totalTestResults']].copy()
+
+# get shorter timeframe
+df2 = df1.loc[df['date'] >= 20200101]
+
+# ---------------- ROW 1 --------------------
+# ---------------- 1 ALABAMA ----------------
+dfAL = df2.loc[df['state'] == 'AL']
+dfDiff = dfAL['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfAL['death'].diff()
+dfAL = dfAL.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfAL = dfAL.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)              # [8]
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Alabama', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)        # [9]
+sns.barplot(y=dfAL['date'], x=dfAL['posDiff'], color='red', orient="h")
+sns.barplot(y=dfAL['date'], x=-dfAL['deathDiff'], color='k', orient="h");
+# ---------------- 2 ALASKA ----------------
+dfAK = df2.loc[df['state'] == 'AK']
+dfDiff = dfAK['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfAK = dfAK.join(dfDiff)
+dfDeath = dfAK['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfAK = dfAK.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Alaska', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfAK['date'], x=dfAK['posDiff'], color='red', orient="h")
+sns.barplot(y=dfAK['date'], x=-dfAK['deathDiff'], color='k', orient="h");
+# ---------------- 3 ARIZONA ----------------
+dfAZ = df2.loc[df['state'] == 'AZ']
+dfDiff = dfAZ['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfAZ = dfAZ.join(dfDiff)
+dfDeath = dfAZ['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfAZ = dfAZ.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Arizona', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfAZ['date'], x=dfAZ['posDiff'], color='red', orient="h")
+sns.barplot(y=dfAZ['date'], x=-dfAZ['deathDiff'], color='k', orient="h");
+# ---------------- 4 ARKANSAS ----------------
+dfAR = df2.loc[df['state'] == 'AR']
+dfDiff = dfAR['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfAR = dfAR.join(dfDiff)
+dfDeath = dfAR['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfAR = dfAR.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Arkansas', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfAR['date'], x=dfAR['posDiff'], color='red', orient="h")
+sns.barplot(y=dfAR['date'], x=-dfAR['deathDiff'], color='k', orient="h");
+# ---------------- 5 CALIFORNIA ----------------
+dfCA = df2.loc[df['state'] == 'CA']
+dfDiff = dfCA['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfCA = dfCA.join(dfDiff)
+dfDeath = dfCA['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfCA = dfCA.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'California', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfCA['date'], x=dfCA['posDiff'], color='red', orient="h")
+sns.barplot(y=dfCA['date'], x=-dfCA['deathDiff'], color='k', orient="h");
+# ---------------- ROW 2 -------------------
+# ---------------- COLORADO ----------------
+dfCO = df2.loc[df['state'] == 'CO']
+dfDiff = dfCO['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfIL['death'].diff()
+dfCO = dfCO.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfCO = dfCO.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Colorado', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfCO['date'], x=dfCO['posDiff'], color='red', orient="h")
+sns.barplot(y=dfCO['date'], x=-dfCO['deathDiff'], color='k', orient="h");
+
+# ---------------- CONNECTICUT ----------------
+dfCT = df2.loc[df['state'] == 'CT']
+dfDiff = dfCT['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfCT = dfCT.join(dfDiff)
+dfDeath = dfCT['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfCT = dfCT.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Connecticut', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfCT['date'], x=dfCT['posDiff'], color='red', orient="h")
+sns.barplot(y=dfCT['date'], x=-dfCT['deathDiff'], color='k', orient="h");
+
+# ---------------- DELAWARE ----------------
+dfDE = df2.loc[df['state'] == 'DE']
+dfDiff = dfDE['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDE = dfDE.join(dfDiff)
+dfDeath = dfDE['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfDE = dfDE.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Delaware', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfDE['date'], x=dfDE['posDiff'], color='red', orient="h")
+sns.barplot(y=dfDE['date'], x=-dfDE['deathDiff'], color='k', orient="h");
+
+# ---------------- FLORIDA ----------------
+dfFL = df2.loc[df['state'] == 'FL']
+dfDiff = dfFL['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfFL = dfFL.join(dfDiff)
+dfDeath = dfFL['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfFL = dfFL.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Florida', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfFL['date'], x=dfFL['posDiff'], color='red', orient="h")
+sns.barplot(y=dfFL['date'], x=-dfFL['deathDiff'], color='k', orient="h");
+
+# ---------------- GEORGIA ----------------
+dfGA = df2.loc[df['state'] == 'GA']
+dfDiff = dfGA['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfGA = dfGA.join(dfDiff)
+dfDeath = dfGA['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfGA = dfGA.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Georgia', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+
+sns.barplot(y=dfGA['date'], x=dfGA['posDiff'], color='red', orient="h")
+sns.barplot(y=dfGA['date'], x=-dfGA['deathDiff'], color='k', orient="h");
+
+# ---------------- ROW 3 -------------------
+# ---------------- HAWAII ----------------
+dfHI = df2.loc[df['state'] == 'HI']
+dfDiff = dfHI['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfHI['death'].diff()
+dfHI = dfHI.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfHI = dfHI.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Hawaii', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfHI['date'], x=dfHI['posDiff'], color='red', orient="h")
+sns.barplot(y=dfHI['date'], x=-dfHI['deathDiff'], color='k', orient="h");
+
+# ---------------- IDAHO ----------------
+dfID = df2.loc[df['state'] == 'ID']
+dfDiff = dfID['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfID = dfID.join(dfDiff)
+dfDeath = dfID['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfID = dfID.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Idaho', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfID['date'], x=dfID['posDiff'], color='red', orient="h")
+sns.barplot(y=dfID['date'], x=-dfID['deathDiff'], color='k', orient="h");
+
+# ---------------- Illinois ----------------
+dfIL = df2.loc[df['state'] == 'IL']
+dfDiff = dfIL['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfIL = dfIL.join(dfDiff)
+dfDeath = dfIL['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfIL = dfIL.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Illinois', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfIL['date'], x=dfIL['posDiff'], color='red', orient="h")
+sns.barplot(y=dfIL['date'], x=-dfIL['deathDiff'], color='k', orient="h");
+
+# ---------------- INDIANA ----------------
+dfIN = df2.loc[df['state'] == 'IN']
+dfDiff = dfIN['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfIN = dfIN.join(dfDiff)
+dfDeath = dfIN['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfIN = dfIN.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Indiana', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfIN['date'], x=dfIN['posDiff'], color='red', orient="h")
+sns.barplot(y=dfIN['date'], x=-dfIN['deathDiff'], color='k', orient="h");
+
+# ---------------- IOWA ----------------
+dfIA = df2.loc[df['state'] == 'IA']
+dfDiff = dfIA['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfIA = dfIA.join(dfDiff)
+dfDeath = dfIA['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfIA = dfIA.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Iowa', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfIA['date'], x=dfIA['posDiff'], color='red', orient="h")
+sns.barplot(y=dfIA['date'], x=-dfIA['deathDiff'], color='k', orient="h");
+
+# ---------------- ROW 4 -------------------
+# ---------------- KANSAS ------------------
+dfKS = df2.loc[df['state'] == 'KS']
+dfDiff = dfKS['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfKS['death'].diff()
+dfKS = dfKS.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfKS = dfKS.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Kansas', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfKS['date'], x=dfKS['posDiff'], color='red', orient="h")
+sns.barplot(y=dfKS['date'], x=-dfKS['deathDiff'], color='k', orient="h");
+
+# ---------------- KENTUCKY ----------------
+dfKY = df2.loc[df['state'] == 'KY']
+dfDiff = dfKY['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfKY = dfKY.join(dfDiff)
+dfDeath = dfKY['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfKY = dfKY.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Kentucky', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfKY['date'], x=dfKY['posDiff'], color='red', orient="h")
+sns.barplot(y=dfKY['date'], x=-dfKY['deathDiff'], color='k', orient="h");
+
+# ---------------- Louisiana ----------------
+dfLA = df2.loc[df['state'] == 'LA']
+dfDiff = dfLA['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfLA = dfLA.join(dfDiff)
+dfDeath = dfLA['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfLA = dfLA.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Louisiana', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfLA['date'], x=dfLA['posDiff'], color='red', orient="h")
+sns.barplot(y=dfLA['date'], x=-dfLA['deathDiff'], color='k', orient="h");
+
+# ---------------- MAINE ----------------
+dfME = df2.loc[df['state'] == 'ME']
+dfDiff = dfME['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfME = dfME.join(dfDiff)
+dfDeath = dfME['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfME = dfME.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Maine', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfME['date'], x=dfME['posDiff'], color='red', orient="h")
+sns.barplot(y=dfME['date'], x=-dfME['deathDiff'], color='k', orient="h");
+
+# ---------------- MARYLAND ----------------
+dfMD = df2.loc[df['state'] == 'MD']
+dfDiff = dfMD['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfMD = dfMD.join(dfDiff)
+dfDeath = dfMD['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfMD = dfMD.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Maryland', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfMD['date'], x=dfMD['posDiff'], color='red', orient="h")
+sns.barplot(y=dfMD['date'], x=-dfMD['deathDiff'], color='k', orient="h");
+
+# ---------------- ROW 5 -------------------
+# ---------------- MASSACHUSETTS ------------------
+dfMA = df2.loc[df['state'] == 'MA']
+dfDiff = dfMA['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfMA['death'].diff()
+dfMA = dfMA.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfMA = dfMA.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Massachusetts', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfMA['date'], x=dfMA['posDiff'], color='red', orient="h")
+sns.barplot(y=dfMA['date'], x=-dfMA['deathDiff'], color='k', orient="h");
+
+# ---------------- MICHIGAN ----------------
+dfMI = df2.loc[df['state'] == 'MI']
+dfDiff = dfMI['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfMI = dfMI.join(dfDiff)
+dfDeath = dfMI['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfMI = dfMI.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Michigan', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfMI['date'], x=dfMI['posDiff'], color='red', orient="h")
+sns.barplot(y=dfMI['date'], x=-dfMI['deathDiff'], color='k', orient="h");
+
+# ---------------- Minnesota ----------------
+dfMN = df2.loc[df['state'] == 'MN']
+dfDiff = dfMN['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfMN = dfMN.join(dfDiff)
+dfDeath = dfMN['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfMN = dfMN.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Minnesota', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfMN['date'], x=dfMN['posDiff'], color='red', orient="h")
+sns.barplot(y=dfMN['date'], x=-dfMN['deathDiff'], color='k', orient="h");
+
+# ---------------- Mississippi ----------------
+dfMS = df2.loc[df['state'] == 'MS']
+dfDiff = dfMS['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfMS = dfMS.join(dfDiff)
+dfDeath = dfMS['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfMS = dfMS.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Mississippi', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfMS['date'], x=dfMS['posDiff'], color='red', orient="h")
+sns.barplot(y=dfMS['date'], x=-dfMS['deathDiff'], color='k', orient="h");
+
+# ---------------- Missouri ----------------
+dfMO = df2.loc[df['state'] == 'MO']
+dfDiff = dfMO['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfMO = dfMO.join(dfDiff)
+dfDeath = dfMO['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfMO = dfMO.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Missouri', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfMO['date'], x=dfMO['posDiff'], color='red', orient="h")
+sns.barplot(y=dfMO['date'], x=-dfMO['deathDiff'], color='k', orient="h");
+# ---------------- ROW 6 --------------------
+# ---------------- Montana ----------------
+dfMT = df2.loc[df['state'] == 'MT']
+dfDiff = dfMT['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfMT = dfMT.join(dfDiff)
+dfDeath = dfMT['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfMT = dfMT.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Montana', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfMT['date'], x=dfMT['posDiff'], color='red', orient="h")
+sns.barplot(y=dfMT['date'], x=-dfMT['deathDiff'], color='k', orient="h");
+# ---------------- Nebraska ----------------
+dfNE = df2.loc[df['state'] == 'NE']
+dfDiff = dfNE['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfNE['death'].diff()
+dfNE = dfNE.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfNE = dfNE.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)              # [8]
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Nebraska', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)        # [9]
+sns.barplot(y=dfNE['date'], x=dfNE['posDiff'], color='red', orient="h")
+sns.barplot(y=dfNE['date'], x=-dfNE['deathDiff'], color='k', orient="h");
+# ---------------- NEVADA ----------------
+dfNV = df2.loc[df['state'] == 'NV']
+dfDiff = dfNV['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfNV = dfNV.join(dfDiff)
+dfDeath = dfNV['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfNV = dfNV.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Nevada', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfNV['date'], x=dfNV['posDiff'], color='red', orient="h")
+sns.barplot(y=dfNV['date'], x=-dfNV['deathDiff'], color='k', orient="h");
+# ---------------- NEW HAMPSHIRE ----------------
+dfNH = df2.loc[df['state'] == 'NH']
+dfDiff = dfNH['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfNH = dfNH.join(dfDiff)
+dfDeath = dfNH['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfNH = dfNH.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'New Hampshire', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfNH['date'], x=dfNH['posDiff'], color='red', orient="h")
+sns.barplot(y=dfNH['date'], x=-dfNH['deathDiff'], color='k', orient="h");
+# ---------------- NEW JERSEY ----------------
+dfNJ = df2.loc[df['state'] == 'NJ']
+dfDiff = dfNJ['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfNJ = dfNJ.join(dfDiff)
+dfDeath = dfNJ['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfNJ = dfNJ.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'New Jersey', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfNJ['date'], x=dfNJ['posDiff'], color='red', orient="h")
+sns.barplot(y=dfNJ['date'], x=-dfNJ['deathDiff'], color='k', orient="h");
+# ---------------- ROW 7 -------------------
+# ---------------- NEW MEXICO ----------------
+dfNM = df2.loc[df['state'] == 'NM']
+dfDiff = dfNM['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfNM = dfNM.join(dfDiff)
+dfDeath = dfNM['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfNM = dfNM.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'New Mexico', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfNM['date'], x=dfNM['posDiff'], color='red', orient="h")
+sns.barplot(y=dfNM['date'], x=-dfNM['deathDiff'], color='k', orient="h");
+# ---------------- NEW YORK ----------------
+dfNY = df2.loc[df['state'] == 'NY']
+dfDiff = dfNY['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfNY['death'].diff()
+dfNY = dfNY.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfNY = dfNY.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'New York', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfNY['date'], x=dfNY['posDiff'], color='red', orient="h")
+sns.barplot(y=dfNY['date'], x=-dfNY['deathDiff'], color='k', orient="h");
+
+# ---------------- NORTH CAROLINA ----------------
+dfNC = df2.loc[df['state'] == 'NC']
+dfDiff = dfNC['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfNC = dfNC.join(dfDiff)
+dfDeath = dfNC['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfNC = dfNC.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'North Carolina', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfNC['date'], x=dfNC['posDiff'], color='red', orient="h")
+sns.barplot(y=dfNC['date'], x=-dfNC['deathDiff'], color='k', orient="h");
+
+# ---------------- NORTH DAKOTA ----------------
+dfND = df2.loc[df['state'] == 'ND']
+dfDiff = dfND['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfND = dfND.join(dfDiff)
+dfDeath = dfND['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfND = dfND.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'North Dakota', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfND['date'], x=dfND['posDiff'], color='red', orient="h")
+sns.barplot(y=dfND['date'], x=-dfND['deathDiff'], color='k', orient="h");
+
+# ---------------- OHIO ----------------
+dfOH = df2.loc[df['state'] == 'OH']
+dfDiff = dfOH['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfOH = dfOH.join(dfDiff)
+dfDeath = dfOH['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfOH = dfOH.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Ohio', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfOH['date'], x=dfOH['posDiff'], color='red', orient="h")
+sns.barplot(y=dfOH['date'], x=-dfOH['deathDiff'], color='k', orient="h");
+# ---------------- ROW 8 -------------------
+# ---------------- OKLAHOMA ----------------
+dfOK = df2.loc[df['state'] == 'OK']
+dfDiff = dfOK['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfOK = dfOK.join(dfDiff)
+dfDeath = dfOK['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfOK = dfOK.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Oklahoma', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfOK['date'], x=dfOK['posDiff'], color='red', orient="h")
+sns.barplot(y=dfOK['date'], x=-dfOK['deathDiff'], color='k', orient="h");
+# ---------------- OREGON ----------------
+dfOR = df2.loc[df['state'] == 'OR']
+dfDiff = dfOR['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfOR['death'].diff()
+dfOR = dfOR.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfOR = dfOR.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Oregon', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfOR['date'], x=dfOR['posDiff'], color='red', orient="h")
+sns.barplot(y=dfOR['date'], x=-dfOR['deathDiff'], color='k', orient="h");
+
+# ---------------- PENNSYLVANIA ----------------
+dfPA = df2.loc[df['state'] == 'PA']
+dfDiff = dfPA['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfPA = dfPA.join(dfDiff)
+dfDeath = dfPA['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfPA = dfPA.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Pennsylvania', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfPA['date'], x=dfPA['posDiff'], color='red', orient="h")
+sns.barplot(y=dfPA['date'], x=-dfPA['deathDiff'], color='k', orient="h");
+
+# ---------------- RHODE ISLAND ----------------
+dfRI = df2.loc[df['state'] == 'RI']
+dfDiff = dfRI['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfRI = dfRI.join(dfDiff)
+dfDeath = dfRI['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfRI = dfRI.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Rhode Island', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfRI['date'], x=dfRI['posDiff'], color='red', orient="h")
+sns.barplot(y=dfRI['date'], x=-dfRI['deathDiff'], color='k', orient="h");
+
+# ---------------- SOUTH CAROLINA ----------------
+dfSC = df2.loc[df['state'] == 'SC']
+dfDiff = dfSC['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfSC = dfSC.join(dfDiff)
+dfDeath = dfSC['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfSC = dfSC.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'South Carolina', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfSC['date'], x=dfSC['posDiff'], color='red', orient="h")
+sns.barplot(y=dfSC['date'], x=-dfSC['deathDiff'], color='k', orient="h");
+# ---------------- ROW 9 -------------------
+# ---------------- SOUTH DAKOTA ----------------
+dfSD = df2.loc[df['state'] == 'SD']
+dfDiff = dfSD['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfSD = dfSD.join(dfDiff)
+dfDeath = dfSD['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfSD = dfSD.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'South Dakota', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfSC['date'], x=dfSC['posDiff'], color='red', orient="h")
+sns.barplot(y=dfSC['date'], x=-dfSC['deathDiff'], color='k', orient="h");
+
+# ---------------- TENNASSEE ------------------
+dfTN = df2.loc[df['state'] == 'TN']
+dfDiff = dfTN['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfTN['death'].diff()
+dfTN = dfTN.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfTN = dfTN.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Tennassee', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfTN['date'], x=dfTN['posDiff'], color='red', orient="h")
+sns.barplot(y=dfTN['date'], x=-dfTN['deathDiff'], color='k', orient="h");
+
+# ---------------- TEXAS ----------------
+dfTX = df2.loc[df['state'] == 'TX']
+dfDiff = dfTX['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfTX = dfTX.join(dfDiff)
+dfDeath = dfTX['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfTX = dfTX.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Texas', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfTX['date'], x=dfTX['posDiff'], color='red', orient="h")
+sns.barplot(y=dfTX['date'], x=-dfTX['deathDiff'], color='k', orient="h");
+
+# ---------------- UTAH ----------------
+dfUT = df2.loc[df['state'] == 'UT']
+dfDiff = dfUT['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfUT = dfUT.join(dfDiff)
+dfDeath = dfUT['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfUT = dfUT.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Utah', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfUT['date'], x=dfUT['posDiff'], color='red', orient="h")
+sns.barplot(y=dfUT['date'], x=-dfUT['deathDiff'], color='k', orient="h");
+
+# ---------------- VERMONT ----------------
+dfVT = df2.loc[df['state'] == 'VT']
+dfDiff = dfVT['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfVT = dfVT.join(dfDiff)
+dfDeath = dfVT['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfVT = dfVT.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Maine', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfVT['date'], x=dfVT['posDiff'], color='red', orient="h")
+sns.barplot(y=dfVT['date'], x=-dfVT['deathDiff'], color='k', orient="h");
+
+# ---------------- ROW 10 -------------------
+# ---------------- VIRGINIA ----------------
+dfVA = df2.loc[df['state'] == 'VA']
+dfDiff = dfVA['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfVA = dfVA.join(dfDiff)
+dfDeath = dfVA['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfVA = dfVA.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplots(figsize=(20,4))
+plt.subplot(151)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Virginia', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfVA['date'], x=dfVA['posDiff'], color='red', orient="h")
+sns.barplot(y=dfVA['date'], x=-dfVA['deathDiff'], color='k', orient="h");
+
+# ---------------- WASHINGTON ------------------
+dfWA = df2.loc[df['state'] == 'WA']
+dfDiff = dfWA['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfDeath = dfWA['death'].diff()
+dfWA = dfWA.join(dfDiff)
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfWA = dfWA.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(152)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Washington', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfWA['date'], x=dfWA['posDiff'], color='red', orient="h")
+sns.barplot(y=dfWA['date'], x=-dfWA['deathDiff'], color='k', orient="h");
+
+# ---------------- West Virginia ----------------
+dfWV = df2.loc[df['state'] == 'WV']
+dfDiff = dfWV['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfWV = dfWV.join(dfDiff)
+dfDeath = dfWV['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfWV = dfWV.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(153)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'West Virginia', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfWV['date'], x=dfWV['posDiff'], color='red', orient="h")
+sns.barplot(y=dfWV['date'], x=-dfWV['deathDiff'], color='k', orient="h");
+
+# ---------------- WISCONSIN ----------------
+dfWI = df2.loc[df['state'] == 'WI']
+dfDiff = dfWI['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfWI = dfWI.join(dfDiff)
+dfDeath = dfWI['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfWI = dfWI.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(154)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Wisconsin', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfWI['date'], x=dfWI['posDiff'], color='red', orient="h")
+sns.barplot(y=dfWI['date'], x=-dfWI['deathDiff'], color='k', orient="h");
+
+# ---------------- WYOMING ----------------
+dfWY = df2.loc[df['state'] == 'WY']
+dfDiff = dfWY['positive'].diff()
+dfDiff = dfDiff.fillna(0).to_frame()
+dfDiff.columns = ['posDiff']
+dfWY = dfWY.join(dfDiff)
+dfDeath = dfWY['death'].diff()
+dfDeath = dfDeath.fillna(0).to_frame()
+dfDeath.columns = ['deathDiff']
+dfWY = dfWY.join(dfDeath)
+# ---------------- PLOT ----------------
+plt.subplot(155)
+ax = plt.gca()
+ax.axes.xaxis.set_visible(False)
+ax.axes.yaxis.set_visible(False)
+plt.text(0.5, .9, 'Wyoming', horizontalalignment='center',\
+     verticalalignment='center', transform=ax.transAxes)
+sns.barplot(y=dfWY['date'], x=dfWY['posDiff'], color='red', orient="h")
+sns.barplot(y=dfWY['date'], x=-dfWY['deathDiff'], color='k', orient="h");
