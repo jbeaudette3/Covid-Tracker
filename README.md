@@ -13,4 +13,9 @@ Below are the sources I used in my code:
 - [7] - Illinois mask mandate starting on May 1 - https://www.illinoispolicy.org/what-illinoisans-need-to-know-about-the-may-1-mask-mandate/
 - [8] - hide axis labels - https://www.delftstack.com/howto/matplotlib/how-to-hide-axis-text-ticks-and-or-tick-labels-in-matplotlib/
 - [9] - text properties on plot - https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.text.html
+- [10] - chicago allowed in restaurants - https://blockclubchicago.org/2020/06/19/chicago-bars-restaurants-can-open-to-limited-indoor-seating-beginning-june-26/
+- [11] - states requiring masks - https://masks4all.co/what-states-require-masks/
+- [12] - states requiring masks - https://www.cnn.com/2020/06/19/us/states-face-mask-coronavirus-trnd/index.html
+- [13] - Phase 4 Illinois - https://www.nbcchicago.com/news/local/illinois-reopening-plan-all-regions-can-move-to-phase-4-friday-pritzker-announces/2295457/
+- [14] - iterate through dataframe - https://www.dataquest.io/blog/tutorial-advanced-for-loops-python-pandas/ 
 - U Chicago, Graham School - Data Analystics for Business Professionals - Machine Learning course 2020, Spring 2020
